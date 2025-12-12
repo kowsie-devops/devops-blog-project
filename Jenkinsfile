@@ -35,10 +35,10 @@ script {
 def servers = ["ubuntu@65.0.45.18"]
 for (s in servers) {
 sshagent(['app-ssh']) {
-sh "ssh -o StrictHostKeyChecking=no ${s} 'mkdir -p /opt/blog/data /opt/blog/scripts'"
+sh "ssh -o StrictHostKeyChecking=no ${s} 'sudo mkdir -p /opt/blog/data /opt/blog/scripts'"
 // copy deploy script
-sh "scp -o StrictHostKeyChecking=no scripts/deploy.sh ${s}:/opt/blog/scripts/deploy.sh"
-sh "ssh ${s} 'chmod +x /opt/blog/scripts/deploy.sh && /opt/blog/scripts/deploy.sh ${DOCKER_IMAGE}'"
+sh "scp -o StrictHostKeyChecking=no scripts/deploy.sh ${s}:/tmp/deploy.sh"
+sh \"ssh -o StrictHostKeyChecking=no ${s} 'sudo mv /tmp/deploy.sh /opt/blog/scripts/deploy.sh && sudo chmod +x /opt/blog/scripts/deploy.sh && sudo /opt/blog/scripts/deploy.sh ${env.DOCKER_IMAGE}'\"
 }
 }
 }
