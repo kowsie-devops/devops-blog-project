@@ -32,7 +32,7 @@ steps {
 // SSH to the app servers and run deploy script
 // configure SSH credentials in Jenkins (id: 'app-ssh')
 script {
-def servers = ["65.0.45.18"]
+def servers = ["ubuntu@65.0.45.18"]
 for (s in servers) {
 sshagent(['app-ssh']) {
 sh "ssh -o StrictHostKeyChecking=no ${s} 'mkdir -p /opt/blog/data /opt/blog/scripts'"
@@ -51,9 +51,6 @@ echo 'Cleanup if needed'
 }
 success {
 echo 'Deployment succeeded.'
-}
-failure {
-mail to: 'kowsi629@gmail.com', subject: "Build failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}", body: "Check Jenkins"
 }
 }
 }
