@@ -38,7 +38,7 @@ sshagent(['app-ssh']) {
 sh "ssh -o StrictHostKeyChecking=no ${s} 'sudo mkdir -p /opt/blog/data /opt/blog/scripts'"
 // copy deploy script
 sh "scp -o StrictHostKeyChecking=no scripts/deploy.sh ${s}:/tmp/deploy.sh"
-sh \"ssh -o StrictHostKeyChecking=no ${s} 'sudo mv /tmp/deploy.sh /opt/blog/scripts/deploy.sh && sudo chmod +x /opt/blog/scripts/deploy.sh && sudo /opt/blog/scripts/deploy.sh ${env.DOCKER_IMAGE}'\"
+sh \"ssh -o StrictHostKeyChecking=no ${s} 'sudo mv /tmp/deploy.sh /opt/blog/scripts/deploy.sh && sudo chmod +x /opt/blog/scripts/deploy.sh && sudo /opt/blog/scripts/deploy.sh ${env.DOCKER_IMAGE}'"
 }
 }
 }
