@@ -1,18 +1,47 @@
 <!doctype html>
-<html>
-<head><title>Simple Blog</title></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Blog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-<h1>Simple Blog</h1>
-<form action="/post" method="post">
-<input name="title" placeholder="Title" required/><br/>
-<textarea name="body" placeholder="Write here" required></textarea><br/>
-<button type="submit">Post</button>
-</form>
-<hr/>
-{% for p in posts %}
-<h3>{{p.title}}</h3>
-<p>{{p.body}}</p>
-<hr/>
-{% endfor %}
+  <main class="page">
+    <div class="card">
+      <header class="card-header">
+        <h1>Simple Blog</h1>
+        <p class="subtitle">Write quick posts — <span class="hint">no login required</span></p>
+      </header>
+
+      <section class="composer">
+        <form action="/post" method="post" class="post-form">
+          <input name="title" class="input title" placeholder="Title" required/>
+          <textarea name="body" class="input body" placeholder="Write your post here..." required></textarea>
+          <div class="controls">
+            <button type="submit" class="btn">Publish</button>
+          </div>
+        </form>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="posts">
+        {% for p in posts %}
+          <article class="post">
+            <h3 class="post-title">{{ p.title }}</h3>
+            <p class="post-body">{{ p.body }}</p>
+          </article>
+        {% else %}
+          <p class="no-posts">No posts yet — be the first!</p>
+        {% endfor %}
+      </section>
+
+      <footer class="card-footer">
+        <small>Made with ❤️ — DevOps Demo</small>
+      </footer>
+    </div>
+  </main>
 </body>
 </html>
+
