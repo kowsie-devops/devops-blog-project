@@ -13,10 +13,8 @@ body{
   color:#0b1220;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   padding:24px;
+  overflow-y:auto;
 }
 
 /* Option B: image background
@@ -26,13 +24,14 @@ body{
 */
 
 /* Card */
-.page{width:100%;max-width:980px}
+.page{width:100%;max-width:980px;margin:0 auto;}
 .card{
   background: var(--card-bg);
   border-radius:14px;
   box-shadow: 0 10px 30px rgba(2,6,23,0.45);
   overflow:hidden;
   padding:28px;
+  width:100%;
 }
 
 /* Header */
