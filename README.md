@@ -25,6 +25,7 @@ Containerization	Docker, Docker Hub
 Infrastructure	AWS EC2 (Ubuntu 22.04)
 Monitoring	Prometheus, Node Exporter, Grafana
 Automation	Bash scripts, Cron
+
 🏗️ 3. Architecture & EC2 Setup
 Architecture Flow
 <p align="center"> GitHub → Jenkins EC2 → Docker Hub → App EC2 → Monitoring EC2 (Prometheus + Grafana) </p>
@@ -33,6 +34,7 @@ Component	Instance Type	Notes
 Jenkins Server	t3.micro	Runs Jenkins + Docker
 App Server	t3.micro	Hosts Flask App via Docker
 Monitoring Server	t3.micro	Prometheus + Grafana
+
 📂 4. Repository Structure
 blog-devops-project/
 │
@@ -53,6 +55,7 @@ blog-devops-project/
 └─ README.md
 
 ⚙️ 5. systemd & Cron Configuration
+
 Node Exporter
 
 Installed at: /usr/local/bin/node_exporter
@@ -71,6 +74,7 @@ Add daily backup at 2 AM:
 0 2 * * * /opt/blog/scripts/backup_db.sh >> /var/log/backup_db.log 2>&1
 
 📊 6. Monitoring Setup (Prometheus, Node Exporter, Grafana)
+
 Node Exporter
 
 Installed on App & Jenkins EC2
@@ -99,6 +103,7 @@ Add Prometheus as data source
 Import dashboards (Node Exporter Full)
 
 🔄 7. Step-by-Step CI/CD Workflow
+
 GitHub
 
 Create Repository
@@ -127,6 +132,7 @@ Add Credentials in Jenkins:
 ID	Purpose
 dockerhub-creds	Push images to Docker Hub
 app-ssh	SSH private key to App Server
+
 CI/CD Flow
 
 Developer pushes code → GitHub
@@ -142,15 +148,21 @@ SSH to App Server → run deploy.sh
 Container runs blog app on port 80
 
 🧪 8. Testing & Validation
+
 Component	Check
-Docker	docker ps, docker logs -f <container>
+
+Docker	docker ps, 
+docker logs -f <container>
 App	Open browser → http://<APP_PUBLIC_IP>
 Database	SQLite file created, blog posts saved
 Backups	Files appear in /opt/blog/backups
 Prometheus	http://<IP>:9090/targets → node targets UP
 Grafana	Dashboards show real-time metrics
+
 🔧 9. Installation Commands
+
 Docker Installation (Both Jenkins & App EC2)
+
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 
@@ -165,11 +177,13 @@ sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 
 Java Installation (for Jenkins)
+
 sudo apt update
 sudo apt install -y fontconfig openjdk-17-jre
 java -version
 
 Jenkins Installation
+
 sudo apt update
 sudo apt install -y ca-certificates curl gnupg
 
@@ -189,6 +203,7 @@ sudo systemctl enable --now jenkins
 Jenkins UI → http://<IP>:8080
 
 Prometheus Installation (Monitoring EC2)
+
 sudo useradd -rs /bin/false prometheus
 cd /opt
 wget https://github.com/prometheus/prometheus/releases/download/v2.51.0/prometheus-2.51.0.linux-amd64.tar.gz
@@ -199,6 +214,7 @@ sudo mkdir -p /var/lib/prometheus
 sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
 
 Prometheus Systemd Service
+
 sudo tee /etc/systemd/system/prometheus.service <<EOF
 [Unit]
 Description=Prometheus Monitoring
@@ -222,6 +238,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now prometheus
 
 Node Exporter Installation (Both EC2 Instances)
+
 sudo useradd -rs /bin/false node_exporter
 cd /opt
 wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
@@ -230,6 +247,7 @@ tar -xvf node_exporter-1.7.0.linux-amd64.tar.gz
 sudo mv node_exporter-1.7.0.linux-amd64/node_exporter /usr/local/bin/
 
 Systemd Service
+
 sudo tee /etc/systemd/system/node_exporter.service <<EOF
 [Unit]
 Description=Node Exporter
@@ -250,6 +268,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now node_exporter
 
 Grafana Installation
+
 sudo apt update
 sudo apt install -y apt-transport-https software-properties-common wget
 
@@ -266,25 +285,34 @@ sudo systemctl enable --now grafana-server
 
 
 Grafana UI:
+
 http://<IP>:3000 (admin / admin)
 
 🔍 10. Verification Commands
+
 Docker
+
 docker --version
 docker ps
 docker images
 docker logs -f <container>
 
 Jenkins
+
 systemctl status jenkins
 
 Prometheus
+
 systemctl status prometheus
 curl http://localhost:9090/targets
 
 Node Exporter
+
 systemctl status node_exporter
 curl http://localhost:9100/metrics
 
 Grafana
+
 systemctl status grafana-server
+
+Blog app Browser: http://<ip>app-server-ip
