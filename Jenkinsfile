@@ -32,7 +32,7 @@ steps {
 // SSH to the app servers and run deploy script
 // configure SSH credentials in Jenkins (id: 'app-ssh')
 script {
-def servers = ["ubuntu@65.0.45.18"]
+def servers = ["ubuntu@15.206.148.173"]
 for (s in servers) {
 sshagent(['app-ssh']) {
 sh "ssh -o StrictHostKeyChecking=no ${s} 'sudo mkdir -p /opt/blog/data /opt/blog/scripts'"
